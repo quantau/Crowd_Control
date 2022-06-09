@@ -1,0 +1,96 @@
+{% extends 'customer/index.html' %}
+{% block content%}
+{% load crispy_forms_tags %}
+<div class="container rounded bg-white mt-5 mb-5" >
+    <div class="row">
+        <div class="card col-md-4 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                    width="150px"
+                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                    class="font-weight-bold">{{user.first_name}}</span><span class="text-black-50"></span><span>
+                </span></div>
+                <div class="card col-md-20 border-right">
+                    <div class="p-3 py-6">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Customer Bio</h4>
+                        </div>
+                        <div>
+                            First Name: {{user.first_name}}<br><br>
+                            Last Name: {{user.last_name}}<br><br>
+                            Date Joined: {{user.date_joined}}<br><br>
+                            {% if user.last_login is none %}
+                            Last Login: None ( New User)
+                            {% else %}
+                            Last Login: {{user.last_login}}
+                            {% endif %}
+                            <br><br>
+
+                            {% if user.customer.prefftime1 is none %}
+                            Preferred Time-1 : Not Defined
+                            {% else %}
+                            Preferred Time-1 : {{user.customer.prefftime1}} 
+                            {% endif %}
+                            <br><br>
+
+                            {% if user.customer.prefftime2 is none%}
+                            Preferred Time-2 : Not Defined
+                            {% else %}
+                            Preferred Time-2 : {{user.customer.prefftime2}} 
+                            {% endif %}
+                            <br><br>
+
+                            {% if user.customer.prefftime3 is none %}
+                            Preferred Time-3 : Not Defined
+                            {% else %}
+                            Preferred Time-3 : {{user.customer.prefftime3}}
+                            {% endif %}  
+                            <br><br>
+                        </div>                                                                       
+                    </div>
+                </div>      
+
+        </div>
+        <div class="card col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="row mt-5">
+                    <h4 class="text-right" >Customer Settings</h4>
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'customer:query' %}">
+                            {% csrf_token %}
+                            {{form_name | crispy |linebreaks}}
+                            {{form | crispy | linebreaks}}
+                            <div class="mb-3">
+                                {% comment %} <label>Interested Shops</label> {% endcomment %}
+                                {% comment %} {% for shop in Shop_list %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name={{shop.id}}>
+                                        <label class="form-check-label" for="flexCheckDefault">{{shop.shop_name}}</label>
+                                    </div>
+                                {% endfor %} {% endcomment %}
+                                {% comment %} {% for shop in Shop_list %}
+                                <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{shop}}" aria-expanded="true" aria-controls="{{shop}}">
+                                    {{shop}}
+                                  </button>
+                                </h2>
+                                <div id="{{shop.shop_name}}" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name={{shop.id}}>
+                                        <label class="form-check-label" for="flexCheckDefault">{{shop.shop_name}}</label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        {% endfor %}                                 {% endcomment %}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>   
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
